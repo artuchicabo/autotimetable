@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+    <meta charset="UTF-8">
+    <title>ระบบจัดตารางสอนอัตโนมัติ</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: #f5f6fa;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+        }
+        .container {
+            background: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.2);
+            width: 100%;
+            max-width: 800px;
+        }
+        h1, h2 {
+            text-align: center;
+            color: #333;
+        }
+        select, button {
+            padding: 10px;
+            margin: 10px 5px;
+            font-size: 16px;
+            border-radius: 8px;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        button:hover { background-color: #45a049; }
+
+        table {
+            border-collapse: collapse;
+            width: 100%;
+            margin-top: 20px;
+            table-layout: fixed;
+            word-wrap: break-word;
+        }
+        th, td {
+            border: 1px solid #333;
+            padding: 8px;
+            text-align: center;
+        }
+        th {
+            background-color: #eee;
+        }
+        #resultMessage {
+            margin-top: 15px;
+            font-weight: bold;
+            text-align: center;
+            color: red;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>ระบบจัดตารางสอนอัตโนมัติ</h1>
+
+    <h2>เลือกชั้นเรียน</h2>
+    <select id="classSelect">
+        <option value="">-- เลือกชั้นเรียน --</option>
+        <option value="ม.1/1">ม.1/1</option>
+        <option value="ม.1/2">ม.1/2</option>
+    </select>
+    <button onclick="showFullTimetable()">สร้างตารางเรียน</button>
+
+    <div id="resultMessage"></div>
+
+    <table id="fullTable">
+        <thead>
+            <tr>
+                <th>ชั้นเรียน</th>
+                <th>วิชา</th>
+                <th>ครู</th>
+                <th>ห้อง</th>
+                <th>วัน</th>
+                <th>คาบ</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
+
+<script>
+async function showFullTimetable() {
+    const resultMsg = document.getElementById("resultMessage");
+    resultMsg.textContent = "กำลังโหลด...";
+    resultMsg.style.color = "blue";
+
+    try {
+        const selectedClass = document.getElementById("classSelect").value;
+        const response = await fetch("http://127.0.0.1:5000/generate_timetable_full"); 
+        if (!response.ok) throw new Error("Backend error!");
+        const data = await response.json();
+        const tbody = document.querySelector("#fullTable tbody");
+        tbody.innerHTML = "";
+
+        const filteredData = data.filter(item => selectedClass === "" || item.class === selectedClass);
+
+        if(filteredData.length === 0){
+            resultMsg.textContent = "ไม่มีข้อมูลตารางสำหรับชั้นเรียนนี้";
+            resultMsg.style.color = "red";
+        } else {
+            resultMsg.textContent = "โหลดข้อมูลเรียบร้อย!";
+            resultMsg.style.color = "green";
+        }
+
+        filteredData.forEach(item => {
+            const row = `<tr>
+                <td>${item.class}</td>
+                <td>${item.subject}</td>
+                <td>${item.teacher}</td>
+                <td>${item.room}</td>
+                <td>${item.day}</td>
+                <td>${item.period}</td>
+            </tr>`;
+            tbody.innerHTML += row;
+        });
+
+    } catch (err) {
+        resultMsg.textContent = "ไม่สามารถเรียก API ได้: " + err.message;
+        resultMsg.style.color = "red";
+        console.error(err);
+    }
+}
+</script>
+</body>
+</html>

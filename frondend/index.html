@@ -2,7 +2,7 @@
 <html lang="th">
 <head>
     <meta charset="UTF-8">
-    <title>ระบบจัดตารางสอนอัตโนมัติ</title>
+    <title>Automatic Timetable System</title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -63,13 +63,13 @@
 </head>
 <body>
 <div class="container">
-    <h1>ระบบจัดตารางสอนอัตโนมัติ</h1>
+    <h1>Automatic Timetable System</h1>
 
     <h2>เลือกชั้นเรียน</h2>
     <select id="classSelect">
         <option value="">-- เลือกชั้นเรียน --</option>
-        <option value="ม.1/1">ม.1/1</option>
-        <option value="ม.1/2">ม.1/2</option>
+        <option value="ปวส.2/1">ปวส.2/1</option>
+        <option value="ปวส.2/2">ปวส.2/2</option>
     </select>
     <button onclick="showFullTimetable()">สร้างตารางเรียน</button>
 
@@ -78,15 +78,37 @@
     <table id="fullTable">
         <thead>
             <tr>
-                <th>ชั้นเรียน</th>
-                <th>วิชา</th>
-                <th>ครู</th>
-                <th>ห้อง</th>
-                <th>วัน</th>
-                <th>คาบ</th>
+                <th>เวลา/คาบ</th>
+                <th>08:00 - 09:00</th>
+                <th>09:00 - 10:00</th>
+                <th>10:00 - 11:00</th>
+                <th>11:00 - 12:00</th>
+                <th>12:00 - 13:00</th>
+                <th>13:00 - 14:00</th>
+                <th>14:00 - 15:00</th>
+                <th>15:00 - 16:00</th>
+                <th>16:00 - 17:00</th>
+                <th>17:00 - 18:00</th>
+                <th>18:00 - 19:00</th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+            <tr>
+                <td>จันทร์</td>
+            </tr>
+            <tr>
+                <td>อังคาร</td>
+            </tr>
+            <tr>
+                <td>พุธ</td>
+            </tr>
+            <tr>
+                <td>พฤหัสบดี</td>
+            </tr>
+            <tr>
+                <td>ศุกร์</td>
+            </tr>
+        </tbody>
     </table>
 </div>
 
@@ -114,17 +136,39 @@ async function showFullTimetable() {
             resultMsg.style.color = "green";
         }
 
-        filteredData.forEach(item => {
-            const row = `<tr>
-                <td>${item.class}</td>
-                <td>${item.subject}</td>
-                <td>${item.teacher}</td>
-                <td>${item.room}</td>
-                <td>${item.day}</td>
-                <td>${item.period}</td>
-            </tr>`;
-            tbody.innerHTML += row;
+        const days = ["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์"];
+        const periods = [...new Set(filteredData.map(d => d.period))].sort(); // คาบทั้งหมด
+
+         days.forEach(day => {
+            const tr = document.createElement("tr");
+            const dayCell = document.createElement("td");
+            dayCell.textContent = day; // ใส่วันในคอลัมน์แรก
+            tr.appendChild(dayCell);
+
+            // เติมข้อมูลคาบเรียนต่อไป
+            periods.forEach(period => {
+                const cell = document.createElement("td");
+                const item = filteredData.find(d => d.day === day && d.period === period);
+                if(item){
+                    cell.innerHTML = `${item.subject}<br>${item.teacher}<br>${item.room}`;
+                }
+                tr.appendChild(cell);
+            });
+
+            tbody.appendChild(tr);
         });
+
+        // filteredData.forEach(item => {
+        //     const row = `<tr>
+        //         <td>${item.class}</td>
+        //         <td>${item.subject}</td>
+        //         <td>${item.teacher}</td>
+        //         <td>${item.room}</td>
+        //         <td>${item.day}</td>
+        //         <td>${item.period}</td>
+        //     </tr>`;
+        //     tbody.innerHTML += row;
+        // });
 
     } catch (err) {
         resultMsg.textContent = "ไม่สามารถเรียก API ได้: " + err.message;

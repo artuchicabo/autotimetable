@@ -1,74 +1,61 @@
 from flask import request, jsonify
-import sqlite3
 import random
+import json
+
+# โหลดข้อมูลพื้นฐาน (ครู วิชา ห้องเรียน ชั้นเรียน)
+with open("timetable.json", "r", encoding="utf-8") as f:
+    data = json.load(f)
+
+teachers = data["teachers"]
+subjects = data["subjects"]
+rooms = data["rooms"]
+classes = data["classes"]
+days = ["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์"]
+periods = ["08:00-09:00","09:00-10:00","10:00-11:00","11:00-12:00",
+           "12:00-13:00","13:00-14:00","14:00-15:00","15:00-16:00","16:00-17:00","17:00-18:00","18:00-19:00"]
+
+def generate_timetable(class_name):
+    timetable = []
+    used_teacher = {day: [] for day in days}  # ตรวจสอบครูที่ใช้แต่ละวัน
+    for day in days:
+        for period in periods:
+            # ถ้าเป็นช่วงพักเที่ยง
+            if period == "12:00-13:00":
+                timetable.append({
+                    "class": class_name,
+                    "day": day,
+                    "period": period,
+                    "subject": "พักเที่ยง 🍴",
+                    "teacher": "",
+                    "room": ""
+                })
+                continue
+
+            subject = random.choice(subjects)
+            available_teachers = [t for t in teachers if t not in used_teacher[day]]
+            teacher = random.choice(available_teachers) if available_teachers else random.choice(teachers)
+            used_teacher[day].append(teacher)
+            room = random.choice(rooms)
+            timetable.append({
+                "class": class_name,
+                "day": day,
+                "period": period,
+                "subject": subject,
+                "teacher": teacher,
+                "room": room
+            })
+    return timetable
 
 def register_routes(app):
-    @app.route("/")
-    def home():
-        return "Backend is running!"
-
-    @app.route("/generate_timetable_full", methods=["GET"])
-    def generate_timetable_full():
-        conn = sqlite3.connect('school.db')
-        c = conn.cursor()
-
-        c.execute("SELECT id, name FROM classes")
-        classes = c.fetchall()
-
-        c.execute("SELECT id, name, teacher_id FROM subjects")
-        subjects = c.fetchall()
-
-        c.execute("SELECT id, name FROM rooms")
-        rooms = c.fetchall()
-
-        subject_periods = {1:4, 2:2, 3:3, 4:3}
-        c.execute("DELETE FROM timetable")
-
-        days = ["จันทร์","อังคาร","พุธ","พฤหัส","ศุกร์"]
-        periods_per_day = 6
-        teacher_schedule = {}
-        room_schedule = {}
-
-        for cls_id, cls_name in classes:
-            for subj_id, subj_name, teacher_id in subjects:
-                periods_needed = subject_periods[subj_id]
-                assigned_periods = 0
-                attempts = 0
-                while assigned_periods < periods_needed and attempts < 500:
-                    day = random.choice(days)
-                    period = random.randint(1, periods_per_day)
-                    room_id, room_name = random.choice(rooms)
-                    if (teacher_id, day, period) not in teacher_schedule and (room_id, day, period) not in room_schedule:
-                        c.execute(
-                            "INSERT INTO timetable (class_id, subject_id, room_id, day, period) VALUES (?, ?, ?, ?, ?)",
-                            (cls_id, subj_id, room_id, day, period)
-                        )
-                        teacher_schedule[(teacher_id, day, period)] = True
-                        room_schedule[(room_id, day, period)] = True
-                        assigned_periods += 1
-                    attempts += 1
-
-        conn.commit()
-        c.execute('''
-            SELECT classes.name, subjects.name, teachers.name, rooms.name, day, period
-            FROM timetable
-            JOIN classes ON timetable.class_id = classes.id
-            JOIN subjects ON timetable.subject_id = subjects.id
-            JOIN teachers ON subjects.teacher_id = teachers.id
-            JOIN rooms ON timetable.room_id = rooms.id
-            ORDER BY classes.name, day, period
-        ''')
-        rows = c.fetchall()
-        conn.close()
-
-        timetable = []
-        for r in rows:
-            timetable.append({
-                "class": r[0],
-                "subject": r[1],
-                "teacher": r[2],
-                "room": r[3],
-                "day": r[4],
-                "period": r[5]
-            })
+    @app.route("/generate_timetable", methods=["POST"])
+    def generate_timetable_api():
+        req = request.json
+        class_name = req.get("class")
+        if not class_name:
+            return jsonify({"error": "โปรดเลือกชั้นเรียน"}), 400
+        timetable = generate_timetable(class_name)
         return jsonify(timetable)
+
+    @app.route("/get_classes", methods=["GET"])
+    def get_classes():
+        return jsonify(classes)

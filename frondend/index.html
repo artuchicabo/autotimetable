@@ -1,196 +1,169 @@
 <!DOCTYPE html>
 <html lang="th">
-<head>
-<meta charset="UTF-8">
-<title>Automatic Timetable System with AI GA</title>
-<style>
-html, body {
-    margin: 0;
-    padding: 0;
-    width: 100%;
-    height: 100%;
-    font-family: Arial, sans-serif;
-    background: #f5f6fa;
-}
+  <head>
+    <meta charset="UTF-8" />
+    <title>Automatic Timetable System with AI GA</title>
+    <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.6.0/css/all.min.css"
+    />
+  </head>
+  <body>
+    <div class="flex  p-3 bg-blue-800">
+      <p class="text-white flex-1 text-xl content-center">วิทยาลัยเทคนิคเลย</p>
 
-body {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
+      <!-- Language -->
+      <div class="me-5 text-white">
+        <div class="flex gap-1 content-center">
+          <img
+            class="size-10"
+            src="https://www.iconarchive.com/download/i109313/wikipedia/flags/TH-Thailand-Flag.1024.png"
+            alt=""
+          />
+          <p class="content-center">ไทย</p>
+        </div>
+      </div>
 
-header {
-    width: 100%;
-    padding: 20px;
-    background-color: #4CAF50;
-    color: white;
-    text-align: center;
-    font-size: 28px;
-    font-weight: bold;
-}
+      <!-- Mail Icon -->
+      <div class="me-5 text-white">
+        <div
+          class=" text-center size-10 items-center flex justify-center text-white"
+        >
+          <i class="fa-regular fa-envelope text-4xl"></i>
+        </div>
+      </div>
 
-.container {
-    flex: 1;
-    width: 100%;
-    padding: 20px;
-    box-sizing: border-box;
-    overflow-x: auto; /* scroll แนวนอนถ้าตารางยาว */
-}
+      <!-- Notification Icon -->
+      <div class="me-5 text-white">
+        <div
+          class="text-center  flex  justify-center text-white "
+        >
+          <i class="fa-regular fa-bell text-4xl"></i>
+        </div>
+      </div>
+      <!-- User Profile -->
+      <div class="me-2 text-white">
+        <div
+          class="size-12 border text-center content-center rounded-3xl flex items-center justify-center border border-white text-blue-700"
+        >
+         <img class="size-12 content-center rounded-3xl" src="https://e7.pngegg.com/pngimages/830/504/png-clipart-tom-jerry-jerry-youtube-jerry-mouse-internet-meme-tom-and-jerry-tom-and-jerry-mammal-cat-like-mammal.png" alt="">
+        </div>
+      </div>
 
-.controls {
-    text-align: center;
-    margin-bottom: 20px;
-}
-
-select, button {
-    padding: 10px;
-    margin: 10px 5px;
-    font-size: 16px;
-    border-radius: 8px;
-}
-
-button {
-    background-color: #4CAF50;
-    color: white;
-    border: none;
-    cursor: pointer;
-    transition: background 0.3s;
-}
-
-button:hover { 
-    background-color: #45a049; 
-}
-
-table {
-    border-collapse: collapse;
-    width: 100%;
-    table-layout: auto;  /* column ขยายตามเนื้อหา */
-    word-wrap: break-word;
-    min-width: 1200px; /* กำหนดขั้นต่ำให้ table ใหญ่เต็มจอ */
-}
-
-th, td {
-    border: 1px solid #333;
-    padding: 12px;      /* เพิ่มความกว้าง cell */
-    text-align: center;
-    min-width: 120px;   /* column กว้างขึ้น */
-}
-
-th { 
-    background-color: #eee; 
-}
-
-#resultMessage {
-    margin-top: 15px;
-    font-weight: bold;
-    text-align: center;
-    font-size: 18px;
-}
-</style>
-</head>
-<body>
-<header>Automatic Timetable System</header>
-
-<div class="container">
-    <div class="controls">
+      <!-- User Info -->
+      <div class="text-white">
+        <p>user_name</p>
+        <p class="text-center">Id_User</p>
+      </div>
+    </div>
+    <div class="container">
+      <div class="controls">
         <h2>เลือกชั้นเรียน</h2>
         <select id="classSelect">
-            <option value="">-- กำลังโหลดชั้นเรียน --</option>
+          <option value="">-- กำลังโหลดชั้นเรียน --</option>
         </select>
         <button onclick="generateTimetable()">สร้างตารางเรียน AI</button>
-    </div>
+      </div>
 
-    <div id="resultMessage"></div>
+      <div id="resultMessage"></div>
 
-    <table id="fullTable">
+      <table id="fullTable">
         <thead>
-            <tr><th>วัน/เวลา</th></tr>
+          <tr>
+            <th>วัน/เวลา</th>
+          </tr>
         </thead>
         <tbody></tbody>
-    </table>
-</div>
+      </table>
+    </div>
 
-<script>
-// โหลดชั้นเรียนจาก backend
-async function loadClasses(){
-    try{
-        const res = await fetch("http://127.0.0.1:5000/get_classes");
-        const data = await res.json();
-        const select = document.getElementById("classSelect");
-        select.innerHTML = '<option value="">-- เลือกชั้นเรียน --</option>';
-        data.forEach(c=>{
+    <script>
+      // โหลดชั้นเรียนจาก backend
+      async function loadClasses() {
+        try {
+          const res = await fetch("http://127.0.0.1:5000/get_classes");
+          const data = await res.json();
+          const select = document.getElementById("classSelect");
+          select.innerHTML = '<option value="">-- เลือกชั้นเรียน --</option>';
+          data.forEach((c) => {
             const opt = document.createElement("option");
-            opt.value = c; opt.textContent = c;
+            opt.value = c;
+            opt.textContent = c;
             select.appendChild(opt);
-        });
-    }catch(err){
-        console.error("ไม่สามารถโหลดชั้นเรียน:", err);
+          });
+        } catch (err) {
+          console.error("ไม่สามารถโหลดชั้นเรียน:", err);
+          const msg = document.getElementById("resultMessage");
+          msg.textContent = "ไม่สามารถโหลดชั้นเรียน";
+          msg.style.color = "red";
+        }
+      }
+
+      // สร้างตารางเรียน AI GA
+      async function generateTimetable() {
+        const className = document.getElementById("classSelect").value;
         const msg = document.getElementById("resultMessage");
-        msg.textContent = "ไม่สามารถโหลดชั้นเรียน";
-        msg.style.color = "red";
-    }
-}
+        msg.textContent = "กำลังสร้างตาราง...";
+        msg.style.color = "blue";
 
-// สร้างตารางเรียน AI GA
-async function generateTimetable(){
-    const className = document.getElementById("classSelect").value;
-    const msg = document.getElementById("resultMessage");
-    msg.textContent = "กำลังสร้างตาราง...";
-    msg.style.color = "blue";
+        if (!className) {
+          msg.textContent = "โปรดเลือกชั้นเรียน!";
+          msg.style.color = "red";
+          return;
+        }
 
-    if(!className){
-        msg.textContent = "โปรดเลือกชั้นเรียน!";
-        msg.style.color = "red";
-        return;
-    }
+        try {
+          const res = await fetch("http://127.0.0.1:5000/generate_timetable", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ class: className }),
+          });
+          const data = await res.json();
+          if (res.status !== 200)
+            throw new Error(data.error || "Backend Error");
 
-    try{
-        const res = await fetch("http://127.0.0.1:5000/generate_timetable", {
-            method:'POST',
-            headers:{'Content-Type':'application/json'},
-            body: JSON.stringify({class: className})
-        });
-        const data = await res.json();
-        if(res.status !== 200) throw new Error(data.error || "Backend Error");
+          const periods = [...new Set(data.map((d) => d.period))];
+          const days = ["จันทร์", "อังคาร", "พุธ", "พฤหัสบดี", "ศุกร์"];
 
-        const periods = [...new Set(data.map(d=>d.period))];
-        const days = ["จันทร์","อังคาร","พุธ","พฤหัสบดี","ศุกร์"];
+          // สร้าง header
+          const thead = document.querySelector("#fullTable thead tr");
+          thead.innerHTML = "<th>วัน/เวลา</th>";
+          periods.forEach((p) => (thead.innerHTML += `<th>${p}</th>`));
 
-        // สร้าง header
-        const thead = document.querySelector("#fullTable thead tr");
-        thead.innerHTML = "<th>วัน/เวลา</th>";
-        periods.forEach(p=>thead.innerHTML += `<th>${p}</th>`);
-
-        // สร้าง body
-        const tbody = document.querySelector("#fullTable tbody");
-        tbody.innerHTML = "";
-        days.forEach(day=>{
+          // สร้าง body
+          const tbody = document.querySelector("#fullTable tbody");
+          tbody.innerHTML = "";
+          days.forEach((day) => {
             const tr = document.createElement("tr");
             const dayCell = document.createElement("td");
             dayCell.textContent = day;
             tr.appendChild(dayCell);
 
-            periods.forEach(period=>{
-                const cell = document.createElement("td");
-                const item = data.find(d=>d.day===day && d.period===period);
-                cell.innerHTML = item ? `${item.subject}<br>${item.teacher}<br>${item.room}` : "-";
-                tr.appendChild(cell);
+            periods.forEach((period) => {
+              const cell = document.createElement("td");
+              const item = data.find(
+                (d) => d.day === day && d.period === period
+              );
+              cell.innerHTML = item
+                ? `${item.subject}<br>${item.teacher}<br>${item.room}`
+                : "-";
+              tr.appendChild(cell);
             });
             tbody.appendChild(tr);
-        });
+          });
 
-        msg.textContent = "สร้างตารางเรียบร้อย!";
-        msg.style.color = "green";
+          msg.textContent = "สร้างตารางเรียบร้อย!";
+          msg.style.color = "green";
+        } catch (err) {
+          msg.textContent = "เกิดข้อผิดพลาด: " + err.message;
+          msg.style.color = "red";
+          console.error(err);
+        }
+      }
 
-    }catch(err){
-        msg.textContent = "เกิดข้อผิดพลาด: "+err.message;
-        msg.style.color = "red";
-        console.error(err);
-    }
-}
-
-// โหลดชั้นเรียนตอนเริ่มต้น
-loadClasses();
-</script>
-</body>
+      // โหลดชั้นเรียนตอนเริ่มต้น
+      loadClasses();
+    </script>
+  </body>
 </html>

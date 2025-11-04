@@ -8,3 +8,9 @@ def register_routes(app):
     @app.route("/hello/<name>", methods=["GET"])
     def hello(name):
         return jsonify({"message": f"Hello, {name}!"})
+    
+    @app.route("/dept", methods=["POST"])
+    def dept():
+        data = request.get_json()
+        department = data.get("department", "Unknown")
+        return jsonify({"message": f"Department received: {department}"})

@@ -1,46 +1,10 @@
 {
   "majors": [
-    {"major_name": "สาขาโปรแกรมเมอร์", "major_id": "M01", "department_id": "D01"},
-    {"major_name": "สาขาเครือข่าย", "major_id": "M02", "department_id": "D05"},
-    {"major_name": "สาขาคอมพิวเตอร์ธุรกิจ", "major_id": "M03", "department_id": "D01"},
-    {"major_name": "สาขามัลติมีเดีย", "major_id": "M04", "department_id": "D04"},
-    {"major_name": "สาขาวิทยาการข้อมูล", "major_id": "M05", "department_id": "D06"},
-    {"major_name": "สาขาปัญญาประดิษฐ์", "major_id": "M06", "department_id": "D07"},
-    {"major_name": "สาขาความมั่นคงไซเบอร์", "major_id": "M07", "department_id": "D08"},
-    {"major_name": "สาขาเทคโนโลยีสารสนเทศ", "major_id": "M08", "department_id": "D01"},
-    {"major_name": "สาขาวิศวกรรมคอมพิวเตอร์", "major_id": "M09", "department_id": "D03"},
-    {"major_name": "สาขาเทคโนโลยีอินเทอร์เน็ตของสรรพสิ่ง", "major_id": "M10", "department_id": "D09"},
-    {"major_name": "สาขาเทคโนโลยีเกม", "major_id": "M11", "department_id": "D10"},
-    {"major_name": "สาขาวิทยาการหุ่นยนต์", "major_id": "M12", "department_id": "D11"},
-    {"major_name": "สาขาเทคโนโลยีคลาวด์คอมพิวติ้ง", "major_id": "M13", "department_id": "D12"},
-    {"major_name": "สาขาวิทยาการเครือข่ายคอมพิวเตอร์", "major_id": "M14", "department_id": "D13"},
-    {"major_name": "สาขาเทคโนโลยีเว็บและแอปพลิเคชันมือถือ", "major_id": "M15", "department_id": "D14"},
-    {"major_name": "สาขาวิทยาการมัลติมีเดียและแอนิเมชัน", "major_id": "M16", "department_id": "D15"},
-    {"major_name": "สาขาเทคโนโลยีสารสนเทศเพื่อธุรกิจดิจิทัล", "major_id": "M17", "department_id": "D16"},
-    {"major_name": "สาขาวิทยาการข้อมูลขนาดใหญ่", "major_id": "M18", "department_id": "D17"},
-    {"major_name": "สาขาเทคโนโลยีความปลอดภัยทางไซเบอร์", "major_id": "M19", "department_id": "D18"},
-    {"major_name": "สาขาวิศวกรรมซอฟต์แวร์", "major_id": "M20", "department_id": "D19"}
+    {"major_id": "M01", "major_name": "สาขาโปรแกรมเมอร์", "department_id": "D01"},
+    {"major_id": "M02", "major_name": "สาขาเครือข่าย", "department_id": "D05"}
   ],
   "departments": [
-    {"dept_name": "แผนกเทคโนโลยีสารสนเทศ", "dept_id": "D01"},
-    {"dept_name": "แผนกวิทยาการคอมพิวเตอร์", "dept_id": "D02"},
-    {"dept_name": "แผนกวิศวกรรมคอมพิวเตอร์", "dept_id": "D03"},
-    {"dept_name": "แผนกเทคโนโลยีมัลติมีเดีย", "dept_id": "D04"},
-    {"dept_name": "แผนกเทคโนโลยีเครือข่าย", "dept_id": "D05"},
-    {"dept_name": "แผนกวิทยาการข้อมูล", "dept_id": "D06"},
-    {"dept_name": "แผนกปัญญาประดิษฐ์", "dept_id": "D07"},
-    {"dept_name": "แผนกความมั่นคงไซเบอร์", "dept_id": "D08"},
-    {"dept_name": "แผนกเทคโนโลยีอินเทอร์เน็ตของสรรพสิ่ง", "dept_id": "D09"},
-    {"dept_name": "แผนกเทคโนโลยีเกม", "dept_id": "D10"},
-    {"dept_name": "แผนกวิทยาการหุ่นยนต์", "dept_id": "D11"},
-    {"dept_name": "แผนกเทคโนโลยีคลาวด์คอมพิวติ้ง", "dept_id": "D12"},
-    {"dept_name": "แผนกวิทยาการเครือข่ายคอมพิวเตอร์", "dept_id": "D13"},
-    {"dept_name": "แผนกเทคโนโลยีเว็บและแอปพลิเคชันมือถือ", "dept_id": "D14"},
-    {"dept_name": "แผนกวิทยาการมัลติมีเดียและแอนิเมชัน", "dept_id": "D15"},
-    {"dept_name": "แผนกเทคโนโลยีสารสนเทศเพื่อธุรกิจดิจิทัล", "dept_id": "D16"},
-    {"dept_name": "แผนกวิทยาการข้อมูลขนาดใหญ่", "dept_id": "D17"},
-    {"dept_name": "แผนกเทคโนโลยีความปลอดภัยทางไซเบอร์", "dept_id": "D18"},
-    {"dept_name": "แผนกวิศวกรรมซอฟต์แวร์", "dept_id": "D19"},
-    {"dept_name": "แผนกเทคโนโลยีโปรแกรมเมอร์", "dept_id": "D20"}
+    {"dept_id": "D01", "dept_name": "แผนกเทคโนโลยีสารสนเทศ"},
+    {"dept_id": "D02", "dept_name": "แผนกวิทยาการคอมพิวเตอร์"}
   ]
 }

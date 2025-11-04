@@ -12,15 +12,22 @@
         <p class="text-white ms-5 font-sans text-xl">Logo and</p>
      </div>
     <!-- End_Navbar -->
-     <form action="" method="post" class="mt-5 ms-5">
+     <form action="/api/departments" method="post" class="mt-5 ms-5">
         <label for="">Dept_Id :</label>
-        <input type="text" id="" name="" required class="border">
+        <input type="text" id="dept_id" name="dept_name" required class="border">
         <label for="">Dept :</label>
         <input type="text" id="" name="" required class="border">
 
         <button class="border bg-blue-900 text-white p-2 hover:bg-white hover:text-black hover:border-none transition" type="submit">submit</button>
      </form>
+     <form action="/api/majors" method="post" class="mt-5 ms-5">
+        <label for="">Dept_Id :</label>
+        <input type="text" id="major_id" name="major_id" required class="border">
+        <label for="">Dept :</label>
+        <input type="text" id="major_name" name="major_name" required class="border">
 
+        <button class="border bg-blue-900 text-white p-2 hover:bg-white hover:text-black hover:border-none transition" type="submit">submit</button>
+     </form>
 
 </body>
 </html>

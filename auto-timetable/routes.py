@@ -1,27 +1,31 @@
-from flask import Blueprint, jsonify, request
-from data_store import teachers, subjects, rooms, classes, days, periods
-
+import os
+import json
+from flask import jsonify, request
 
 DATA_FILE = "timetable.json"
 
-
-# โหลดข้อมูลจากไฟล์
+# -----------------------------
+# Data store (แทน data_store.py)
 def load_data():
     if not os.path.exists(DATA_FILE):
-        return {"departments": [], "majors": []}
+        # ถ้าไฟล์ยังไม่มี ให้สร้างโครงสร้างพื้นฐาน
+        return {
+            "departments": [],
+            "majors": []
+        }
     with open(DATA_FILE, "r", encoding="utf-8") as f:
         return json.load(f)
 
-# บันทึกข้อมูลกลับไฟล์
 def save_data(data):
     with open(DATA_FILE, "w", encoding="utf-8") as f:
         json.dump(data, f, ensure_ascii=False, indent=4)
 
-# ฟังก์ชันหลัก ที่ app.py จะเรียกใช้
+# -----------------------------
+# ฟังก์ชันหลัก register_routes
 def register_routes(app):
 
-    #  1. แผนก (Departments)
-
+    # -------------------------
+    # 1. Departments API
     @app.route("/api/departments", methods=["GET"])
     def get_departments():
         data = load_data()
@@ -57,8 +61,8 @@ def register_routes(app):
         save_data(data)
         return jsonify({"message": f"ลบแผนก {dept_id} เรียบร้อย"})
 
-    #  2. สาขาวิชา (Majors)
-
+    # -------------------------
+    # 2. Majors API
     @app.route("/api/majors", methods=["GET"])
     def get_majors():
         data = load_data()
@@ -93,5 +97,3 @@ def register_routes(app):
         data["majors"] = new_list
         save_data(data)
         return jsonify({"message": f"ลบสาขาวิชา {major_id} เรียบร้อย"})
-
-

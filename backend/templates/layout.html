@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="th">
+<head>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width,initial-scale=1"/>
+  <title>Auto Timetable Dashboard</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body class="min-h-screen bg-slate-50">
+  <div class="flex">
+    <aside class="w-64 bg-indigo-700 text-white p-6 min-h-screen">
+      <h2 class="text-2xl font-bold mb-6">Auto Timetable</h2>
+      <nav class="space-y-3">
+        <a href="/" class="block px-3 py-2 rounded hover:bg-indigo-600">📅 Dashboard</a>
+        <a href="/manage" class="block px-3 py-2 rounded hover:bg-indigo-600">⚙️ จัดการข้อมูล</a>
+      </nav>
+      <div class="mt-10 text-sm text-indigo-200">Firebase Firestore Backend</div>
+    </aside>
+    <main class="flex-1 p-8">
+      {% block content %}{% endblock %}
+    </main>
+  </div>
+</body>
+</html>

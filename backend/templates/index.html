@@ -1,0 +1,95 @@
+{% extends "layout.html" %}
+{% block content %}
+<div class="flex justify-between items-center mb-6">
+  <h1 class="text-2xl font-bold text-slate-700">ตารางสอนประจำสัปดาห์</h1>
+  <div class="flex gap-3">
+    <button id="btnGenerate" class="bg-indigo-600 text-white px-4 py-2 rounded">สร้างตาราง</button>
+    <button id="btnExport" class="bg-yellow-500 text-white px-4 py-2 rounded">ดาวน์โหลด Excel</button>
+    <button id="btnCheck" class="bg-emerald-500 text-white px-4 py-2 rounded">ตรวจสอบซ้ำ</button>
+  </div>
+</div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+  <div class="bg-white p-4 rounded shadow">
+    <table class="w-full text-sm">
+      <thead class="bg-slate-100">
+        <tr>
+          <th class="p-2">วัน</th><th class="p-2">เวลา</th><th class="p-2">รายวิชา</th><th class="p-2">ครู</th><th class="p-2">ห้อง</th><th class="p-2">คาบ</th>
+        </tr>
+      </thead>
+      <tbody id="timetableBody"></tbody>
+    </table>
+    <div class="mt-3 text-right font-semibold">รวมทั้งหมด: <span id="totalCount">0</span> คาบ</div>
+  </div>
+
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold mb-3">สถิติ จำนวนคาบต่อครู</h3>
+    <canvas id="teacherChart"></canvas>
+    <h3 class="font-semibold mt-6 mb-3">สถิติ จำนวนรายวิชาทั้งหมด</h3>
+    <div id="summary" class="text-sm text-slate-600"></div>
+  </div>
+</div>
+
+<script>
+async function loadAll() {
+  const res = await fetch('/api/timetable');
+  const data = await res.json();
+  const items = data.timetable || [];
+  const tbody = document.getElementById('timetableBody');
+  tbody.innerHTML = items.map(it => `
+    <tr class="even:bg-slate-50">
+      <td class="p-2">${it.day}</td>
+      <td class="p-2">${it.time}</td>
+      <td class="p-2">${it.subject_code} - ${it.subject_name}</td>
+      <td class="p-2">${it.teacher}</td>
+      <td class="p-2">${it.room}</td>
+      <td class="p-2">${it.slots}</td>
+    </tr>
+  `).join('');
+  document.getElementById('totalCount').innerText = items.length;
+
+  // chart: count per teacher
+  const counts = {};
+  items.forEach(i => counts[i.teacher] = (counts[i.teacher]||0) + 1);
+  const ctx = document.getElementById('teacherChart');
+  if (window.teacherChart) window.teacherChart.destroy();
+  window.teacherChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: Object.keys(counts),
+      datasets: [{ label: 'คาบ', data: Object.values(counts), backgroundColor: 'rgba(99,102,241,0.8)' }]
+    },
+    options: { responsive:true }
+  });
+
+  // summary
+  const subjects = new Set(items.map(i => i.subject_code+' - '+i.subject_name));
+  document.getElementById('summary').innerText = `ครูทั้งหมด: ${Object.keys(counts).length} คน · วิชาทั้งหมด: ${subjects.size} รายวิชา`;
+}
+
+document.getElementById('btnGenerate').onclick = async () => {
+  const res = await fetch('/api/generate_timetable', { method: 'POST' });
+  const j = await res.json();
+  if (j.error) return alert(j.error);
+  alert(j.message || 'สร้างตารางเรียบร้อย');
+  loadAll();
+};
+
+document.getElementById('btnExport').onclick = async () => {
+  const res = await fetch('/api/export_excel');
+  const blob = await res.blob();
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a'); a.href = url; a.download = 'timetable.xlsx'; a.click();
+};
+
+document.getElementById('btnCheck').onclick = async () => {
+  const res = await fetch('/api/check_duplicate');
+  const j = await res.json();
+  if (j.status === 'ok') alert('✅ ไม่พบการชนกัน');
+  else alert('⚠️ พบการชนกัน: '+ (j.duplicates||[]).length +' รายการ');
+};
+
+loadAll();
+</script>
+
+{% endblock %}

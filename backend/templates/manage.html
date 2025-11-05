@@ -1,0 +1,104 @@
+{% extends "layout.html" %}
+{% block content %}
+<h2 class="text-xl font-semibold mb-4">จัดการข้อมูลพื้นฐาน</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+  <!-- Teachers -->
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold mb-2">ครู</h3>
+    <div class="flex gap-2 mb-3">
+      <input id="teacherInput" class="border p-2 flex-1" placeholder="ชื่อครู">
+      <button id="addTeacher" class="bg-indigo-600 text-white px-3 rounded">เพิ่ม</button>
+    </div>
+    <ul id="teacherList" class="text-sm"></ul>
+  </div>
+
+  <!-- Subjects -->
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold mb-2">วิชา</h3>
+    <div class="grid grid-cols-3 gap-2 mb-3">
+      <input id="subjectCode" class="border p-2" placeholder="รหัส">
+      <input id="subjectName" class="border p-2 col-span-2" placeholder="ชื่อวิชา">
+      <input id="subjectHours" class="border p-2" placeholder="จำนวนคาบ">
+      <div class="col-span-2"></div>
+      <button id="addSubject" class="bg-indigo-600 text-white px-3 rounded">เพิ่ม</button>
+    </div>
+    <ul id="subjectList" class="text-sm"></ul>
+  </div>
+
+  <!-- Rooms -->
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold mb-2">ห้อง</h3>
+    <div class="flex gap-2 mb-3">
+      <input id="roomInput" class="border p-2 flex-1" placeholder="ชื่อห้อง">
+      <button id="addRoom" class="bg-indigo-600 text-white px-3 rounded">เพิ่ม</button>
+    </div>
+    <ul id="roomList" class="text-sm"></ul>
+  </div>
+
+  <!-- Timeslots -->
+  <div class="bg-white p-4 rounded shadow">
+    <h3 class="font-semibold mb-2">เวลา</h3>
+    <div class="flex gap-2 mb-3">
+      <input id="timeInput" class="border p-2 flex-1" placeholder="08:00 - 09:00">
+      <button id="addTime" class="bg-indigo-600 text-white px-3 rounded">เพิ่ม</button>
+    </div>
+    <ul id="timeList" class="text-sm"></ul>
+  </div>
+</div>
+
+<script>
+async function fetchAndRender(url, listId) {
+  const res = await fetch(url); const arr = await res.json();
+  document.getElementById(listId).innerHTML = arr.map(a => `<li class="flex justify-between py-1 border-b">${a.name||a.code+' - '+a.name} <button onclick="del('${url}', '${a._id}')" class="text-red-600">ลบ</button></li>`).join('');
+}
+
+async function del(url, id){
+  await fetch(url, {method:'DELETE', headers: {'Content-Type':'application/json'}, body: JSON.stringify({id})});
+  loadAllManage();
+}
+
+function loadAllManage(){
+  fetchAndRender('/api/teachers','teacherList');
+  fetchAndRender('/api/subjects','subjectList');
+  fetchAndRender('/api/rooms','roomList');
+  fetchAndRender('/api/timeslots','timeList');
+}
+
+document.getElementById('addTeacher').onclick = async () => {
+  const name = document.getElementById('teacherInput').value.trim();
+  if(!name) return alert('กรุณากรอกชื่อ');
+  await fetch('/api/teachers',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
+  document.getElementById('teacherInput').value='';
+  loadAllManage();
+};
+
+document.getElementById('addSubject').onclick = async () => {
+  const code = document.getElementById('subjectCode').value.trim();
+  const name = document.getElementById('subjectName').value.trim();
+  const hours = document.getElementById('subjectHours').value.trim() || 1;
+  if(!code || !name) return alert('กรอกให้ครบ');
+  await fetch('/api/subjects',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({code,name,hours})});
+  document.getElementById('subjectCode').value = ''; document.getElementById('subjectName').value = ''; document.getElementById('subjectHours').value='';
+  loadAllManage();
+};
+
+document.getElementById('addRoom').onclick = async () => {
+  const name = document.getElementById('roomInput').value.trim();
+  if(!name) return alert('กรอกชื่อห้อง');
+  await fetch('/api/rooms',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({name})});
+  document.getElementById('roomInput').value='';
+  loadAllManage();
+};
+
+document.getElementById('addTime').onclick = async () => {
+  const time = document.getElementById('timeInput').value.trim();
+  if(!time) return alert('กรอกเวลา');
+  await fetch('/api/timeslots',{method:'POST', headers:{'Content-Type':'application/json'}, body: JSON.stringify({time})});
+  document.getElementById('timeInput').value='';
+  loadAllManage();
+};
+
+loadAllManage();
+</script>
+{% endblock %}

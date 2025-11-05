@@ -1,0 +1,274 @@
+{
+    "timetable": [
+        {
+            "day": "จันทร์",
+            "time": "08:00 - 09:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "จันทร์",
+            "time": "09:00 - 10:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "จันทร์",
+            "time": "10:00 - 11:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "จันทร์",
+            "time": "11:00 - 12:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "จันทร์",
+            "time": "13:00 - 14:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "จันทร์",
+            "time": "14:00 - 15:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "อังคาร",
+            "time": "08:00 - 09:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "อังคาร",
+            "time": "09:00 - 10:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "อังคาร",
+            "time": "10:00 - 11:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "อังคาร",
+            "time": "11:00 - 12:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 101",
+            "slots": 3
+        },
+        {
+            "day": "อังคาร",
+            "time": "13:00 - 14:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "อังคาร",
+            "time": "14:00 - 15:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "พุธ",
+            "time": "08:00 - 09:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 102",
+            "slots": 3
+        },
+        {
+            "day": "พุธ",
+            "time": "09:00 - 10:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "พุธ",
+            "time": "10:00 - 11:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "พุธ",
+            "time": "11:00 - 12:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "พุธ",
+            "time": "13:00 - 14:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 101",
+            "slots": 3
+        },
+        {
+            "day": "พุธ",
+            "time": "14:00 - 15:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 102",
+            "slots": 3
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "08:00 - 09:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "09:00 - 10:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 101",
+            "slots": 2
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "10:00 - 11:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 102",
+            "slots": 3
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "11:00 - 12:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 103",
+            "slots": 2
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "13:00 - 14:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 102",
+            "slots": 3
+        },
+        {
+            "day": "พฤหัสบดี",
+            "time": "14:00 - 15:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 103",
+            "slots": 2
+        },
+        {
+            "day": "ศุกร์",
+            "time": "08:00 - 09:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูสมชาย",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "ศุกร์",
+            "time": "09:00 - 10:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 103",
+            "slots": 3
+        },
+        {
+            "day": "ศุกร์",
+            "time": "10:00 - 11:00",
+            "subject_code": "103",
+            "subject_name": "ฟิสิกส์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 102",
+            "slots": 3
+        },
+        {
+            "day": "ศุกร์",
+            "time": "11:00 - 12:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 102",
+            "slots": 2
+        },
+        {
+            "day": "ศุกร์",
+            "time": "13:00 - 14:00",
+            "subject_code": "101",
+            "subject_name": "คณิตศาสตร์",
+            "teacher": "ครูมาลี",
+            "room": "ห้อง 103",
+            "slots": 2
+        },
+        {
+            "day": "ศุกร์",
+            "time": "14:00 - 15:00",
+            "subject_code": "102",
+            "subject_name": "ภาษาอังกฤษ",
+            "teacher": "ครูธีระ",
+            "room": "ห้อง 101",
+            "slots": 2
+        }
+    ]
+}

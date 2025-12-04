@@ -1,31 +1,32 @@
-# อัพเดต 1.0 - app.py
-from flask import Flask, render_template
-from routes import register_routes
-import firebase_admin
-from firebase_admin import credentials, db
+from flask import Flask
+from flask_cors import CORS
+from routes import api_blueprint
+from dotenv import load_dotenv
 import os
 
-SERVICE_ACCOUNT = "serviceAccountKey.json"
-if not os.path.exists(SERVICE_ACCOUNT):
-    raise RuntimeError("❌ ไม่พบไฟล์ serviceAccountKey.json — ใส่ไฟล์คีย์ Firebase ลงในโฟลเดอร์ backend/ ก่อน")
+load_dotenv()
 
-cred = credentials.Certificate(SERVICE_ACCOUNT)
-firebase_admin.initialize_app(cred, {
-    "databaseURL": "https://autotimetable-382ee-default-rtdb.asia-southeast1.firebasedatabase.app/"
+app = Flask(__name__)
+
+# Configure CORS for production - allow all origins in development, specific in production
+CORS(app, resources={
+    r"/api/*": {
+        "origins": ["*"],  # Allow all origins - change this in production to specific domains
+        "methods": ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
+        "allow_headers": ["Content-Type", "Authorization"],
+        "expose_headers": ["Content-Type", "Authorization"],
+        "supports_credentials": True
+    }
 })
 
-app = Flask(__name__, template_folder="templates")
+app.register_blueprint(api_blueprint, url_prefix="/api")
 
-# ลงทะเบียน route ทั้งหมด (Realtime DB)
-register_routes(app)
-
-@app.route('/')
+@app.route("/")
 def home():
-    return render_template('index.html')
+    return {"message": "AI Timetable API Running 🚀", "status": "OK"}
 
-@app.route('/manage')
-def manage():
-    return render_template('manage.html')
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    port = int(os.getenv("PORT", 5000))
+    debug = os.getenv("DEBUG", "False") == "True"
+    # Bind to 0.0.0.0 to allow external access
+    app.run(host="0.0.0.0", debug=debug, port=port)

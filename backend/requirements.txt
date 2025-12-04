@@ -1,0 +1,6 @@
+Flask
+Flask-CORS
+pandas
+PyJWT
+python-dotenv
+firebase-admin

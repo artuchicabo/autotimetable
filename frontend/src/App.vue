@@ -204,7 +204,7 @@ const runScheduling = async () => {
 }
 
 const exportExcel = () => {
-  window.open('http://localhost:5000/api/export/excel', '_blank')
+  window.open('autotimetable-backend-production.up.railway.app/api/export/excel', '_blank')
 }
 
 const printTimetable = () => {
